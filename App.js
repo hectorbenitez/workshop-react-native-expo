@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
 
-export default function App() {
+import WorkshopBox from './components/WorkshopBox'
+import Home from './screens/Home'
+import Workshop from './screens/Workshop'
+import AddWorkshop from './screens/AddWorkshop'
+
+const RootNavigator = createStackNavigator()
+const MainNavigator = createStackNavigator()
+
+// Root
+// Root: Main - Modal
+// Main: Home - WS
+
+function MainScreen () {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <MainNavigator.Navigator>
+      <MainNavigator.Screen name='Home' component={Home} />
+      <MainNavigator.Screen name='Workshop' component={Workshop} />
+    </MainNavigator.Navigator>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App () {
+  return (
+    <NavigationContainer>
+      <RootNavigator.Navigator>
+        <RootNavigator.Screen name='Main' component={MainScreen} options={{
+          headerShown: false
+        }} />
+        <RootNavigator.Screen name='AddWorkshop' component={AddWorkshop} />
+      </RootNavigator.Navigator>
+    </NavigationContainer>
+  )
+}
